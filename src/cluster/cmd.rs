@@ -1,4 +1,4 @@
-use std::process::{self, Command};
+use std::process::{Command};
 
 pub fn run_command(cmd: &mut Command) -> Result<String, String> {
     let output = cmd.output();
