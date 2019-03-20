@@ -1,9 +1,18 @@
-# Goals
+# k3d - k3s in docker
 
-1. Create a k3s docker server
-2. Start a k3s docker server
-3. Stop a k3s docker server
-4. delete a k3s docker server
+A lightweight alternative to KinD for local development.
 
-docker run --rm -it -e K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml --publish 6443:6443 --privileged rancher/k3s:v0.1.0 server  --https-listen-port 6443
+## Install and run
 
+1. You need docker installed.
+2. Just run:
+
+   `curl -s https://api.github.com/repos/zeerorg/k3s-in-docker/releases/latest | grep "browser_download_url.*k3d\"" | cut -d : -f 2,3 | tr -d \" | wget -qi - -O k3d && ./k3d create`
+3. If you have rust toolchain installed, you can install it using: `cargo install k3d && k3d create`
+
+## Advantages over [KinD](https://github.com/kubernetes-sigs/kind)
+
+1. Supports arm64 and armhf
+2. Fast boot time
+3. Supports starting and stopping without losing previous state
+4. Lightweight compared to KinD
