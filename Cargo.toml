@@ -3,6 +3,10 @@ name = "k3d"
 version = "0.1.0"
 authors = ["Rishabh Gupta <r.g.gupta@outlook.com>"]
 edition = "2018"
+description = "k3s in docker"
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/zeerorg/k3s-in-docker/"
 
 [dependencies]
 clap = "2.26.0"
