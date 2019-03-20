@@ -7,4 +7,3 @@ edition = "2018"
 [dependencies]
 clap = "2.26.0"
 directories = "1.0.2"
-prettytable-rs = "^0.8"
