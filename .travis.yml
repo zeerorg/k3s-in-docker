@@ -1,4 +1,12 @@
 language: rust
+sudo: true
+xenial: true
 
 rust:
   - stable
+
+before_install:
+  - bash ./ci/pre-build.sh
+
+script:
+  - bash ./ci/build.sh
