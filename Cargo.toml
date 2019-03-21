@@ -1,6 +1,6 @@
 [package]
 name = "k3d"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Rishabh Gupta <r.g.gupta@outlook.com>"]
 edition = "2018"
 description = "k3s in docker"
