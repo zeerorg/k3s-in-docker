@@ -14,5 +14,5 @@ pub fn run_command(cmd: &mut Command) -> Result<String, String> {
         return Ok(String::from_utf8(output.stdout).unwrap());
     }
 
-    return Err(String::from_utf8(output.stdout).unwrap());
+    return Err(format!("{}\n{}", String::from_utf8(output.stdout).unwrap(), String::from_utf8(output.stderr).unwrap()));
 }
