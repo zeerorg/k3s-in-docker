@@ -7,7 +7,10 @@ A lightweight alternative to KinD for local development.
 1. You need docker installed.
 2. Just run:
 
-   `curl -s https://api.github.com/repos/zeerorg/k3s-in-docker/releases/latest | grep "browser_download_url.*k3d\"" | cut -d : -f 2,3 | tr -d \" | wget -qi - -O k3d && ./k3d create`
+   ```bash
+   curl -sSL https://raw.githubusercontent.com/zeerorg/k3s-in-docker/master/install-script.sh | sudo sh -
+   k3d create
+   ```
 
 3. If you have rust toolchain installed, you can install it using: `cargo install k3d && k3d create`
 
@@ -25,7 +28,7 @@ Normal flow:
 1. `k3d create`
 2. `export KUBECONFIG=$(k3d get-kubeconfig)`
 3. `kubectl get pods --all-namespaces`
-4. If you want to delete the cluster do: `kubectl delete`
+4. If you want to delete the cluster do: `k3d delete`
 
 If port 6443 is occupied you can specify a different port in first step: `k3d create -p 10001`. This will create a docker container named k3s_default with port 10001 exposed.
 
@@ -53,3 +56,8 @@ SUBCOMMANDS:
     start             Start a stopped cluster
     stop              Stop a cluster
 ```
+
+## Next Steps
+
+1. One of the features I wanted to add is an insecure registry support. This can be done after [k3s PR #248](https://github.com/rancher/k3s/pull/248) is approved.
+2. Upgrade this to version 0.2.x of k3s

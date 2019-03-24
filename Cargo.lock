@@ -46,7 +46,7 @@ dependencies = [
 
 [[package]]
 name = "k3d"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "clap 2.32.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "directories 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
