@@ -43,7 +43,7 @@ checkHash(){
     if [ -x "$(command -v $sha_cmd)" ]; then
 
     filesum=$($sha_cmd $targetFile | awk '{print $1;}')
-    matchsum=$(curl -sSL https://github.com/zeerorg/k3s-in-docker/releases/download/$version/sha256sum.txt | grep "k3d$suffix$" - | awk '{print $1;}')
+    matchsum=$(curl -sSL https://github.com/zeerorg/k3s-in-docker/releases/download/$version/k3d$suffix.sha256 | awk '{print $1;}')
 
         if [ "$filesum" != "$matchsum" ]; then
             echo "File checksum: $filesum"
