@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [[ "$(uname -s)" != "Linux" ]]
+then
+  exit 0
+fi
+
 # Set linker environment variables
 export CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=arm-linux-gnueabihf-gcc
 export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc

@@ -1,7 +1,4 @@
 language: rust
-sudo: true
-xenial: true
-
 rust:
   - stable
 
@@ -9,4 +6,22 @@ before_install:
   - bash ./ci/pre-build.sh
 
 script:
-  - bash ./ci/build.sh
+  - bash ./ci/publish.sh
+
+matrix:
+  include:
+  - os: linux
+    dist: xenial
+    sudo: true
+  - os: osx
+
+deploy:
+  provider: releases
+  api_key:
+    secure: p0/yg+AYr2ZN1V5GgZ5taMSGsSHv6J65HBm8gfpqAaNNuq86I/ENPOe2kgOjG5y179hqoC5cbvybiMszkhj/kFT/2wyVtjawNZyEGzcakM+r+TDoUEFsC9oKBeuFnEJr87Msl1nJkZuUNCfEe4hTzDvfUEYA66cxzUuPxnlSkd9K9x9wlOA1fanZ+yiiB2hUpgauu52gV4VTl9r0rEyLmGDky3uP0tDaTobeyrpuhKXB62jKQPoUpX0d3v772jYJwl7ldYcMYWG73YVoUKrWcMkcmioiurEufw3FaZ2N2e5pIdmMk+O/+LMUll3jcYeZwOpjvpTPlHE+CSK65+dB2HBvYR6WpBV2R1keZygokEsUiwu6b3NWsG0HDPN8ryHk3edaZ97N9ioPQ87h1NDW573yR8EcBS9/W3OBfEvP+W3Br4RUYJpIpxcfBNRLLFkRVghp5BVMhUweLO5eJMolMvwTll/ku2ucSxemlpG2THXgRs3qAkTZjuh+M/xVWLqd5VU2orKtm4yQZfzlapDM5H0vq3oRW75POpbbkbkq7GUZ2NhdBDdAcM/nSNt8q/GcYX7v2luJaja9jBjvBSsRD3u0aqKS4JttapYgUnyA++Gefdip2EauWcddlPWrUBF2PTM4lsTokD5KsvHH0l+BkLLc+bv+2SnNMTsyImVVPgU=
+  file: target/releases/*
+  file_glob: true
+  skip_cleanup: true
+  on:
+    repo: zeerorg/k3s-in-docker
+    tags: true
