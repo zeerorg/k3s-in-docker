@@ -9,7 +9,7 @@ export CARGO_TARGET_X86_64_PC_WINDOWS_GNU_LINKER=x86_64-w64-mingw32-gcc
 targets=("x86_64-pc-windows-gnu" "x86_64-unknown-linux-musl" "armv7-unknown-linux-musleabihf" "aarch64-unknown-linux-gnu")
 for trgt in ${targets[*]}
 do
-  cargo build --verbose --target $trgt
+  cargo build --release --verbose --target $trgt
   if [ "$?" != "0" ]
   then
     exit 1
