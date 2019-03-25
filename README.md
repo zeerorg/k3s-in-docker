@@ -8,7 +8,7 @@ A lightweight alternative to KinD for local development.
 2. Just run:
 
    ```bash
-   curl -sSL https://raw.githubusercontent.com/zeerorg/k3s-in-docker/master/install-script.sh | sudo sh -
+   curl -sSL https://raw.githubusercontent.com/zeerorg/k3s-in-docker/master/install-script.sh | sudo bash -
    k3d create
    ```
 
