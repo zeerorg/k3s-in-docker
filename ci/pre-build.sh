@@ -12,5 +12,6 @@ sudo apt-get install -y --no-install-recommends g++-mingw-w64-x86-64 g++-aarch64
 rustup target add x86_64-pc-windows-gnu &
 rustup target add armv7-unknown-linux-musleabihf &
 rustup target add aarch64-unknown-linux-gnu &
+rustup target add x86_64-unknown-linux-musl &
 
 wait
