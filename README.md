@@ -1,6 +1,6 @@
 # k3d - k3s in docker
 
-A lightweight alternative to KinD for local development.
+A lightweight alternative to KinD for local development. Read the introductory blog [post](https://blog.zeerorg.site/post/k3d-kubernetes-dev-env).
 
 ## Install and run
 
