@@ -33,6 +33,7 @@ case $TARGET in
   ;;
 esac
 
+export GIT_TAG="$(git describe --tags)"
 cargo build --release --verbose --target $TARGET
 
 mkdir -p target/releases/
