@@ -29,8 +29,9 @@ case $TARGET in
 "x86_64-apple-darwin")
   export FILENAME="k3d-darwin"
   ;;
+esac
 
 cargo build --release --verbose --target $TARGET
-sha256sum target/release/$TARGET/$FILENAME > target/release/$TARGET/$FILENAME.sha256
+sha256sum target/$TARGET/release/$FILENAME > target/$TARGET/release/$FILENAME.sha256
 mkdir -p target/releases/
-cp target/release/$TARGET/* target/releases/
+cp target/$TARGET/release/* target/releases/
