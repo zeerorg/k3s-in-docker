@@ -32,7 +32,7 @@ case $TARGET in
 esac
 
 cargo build --release --verbose --target $TARGET
-sha256sum target/$TARGET/release/$FILENAME > target/$TARGET/release/$FILENAME.sha256
+
 mkdir -p target/releases/
-cp target/$TARGET/release/$FILENAME target/releases/
-cp target/$TARGET/release/$FILENAME.sha256 target/releases/
+mv target/$TARGET/release/k3d target/releases/$FILENAME
+sha256sum target/releases/$FILENAME > target/releases/$FILENAME.sha256
