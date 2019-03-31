@@ -34,4 +34,5 @@ esac
 cargo build --release --verbose --target $TARGET
 sha256sum target/$TARGET/release/$FILENAME > target/$TARGET/release/$FILENAME.sha256
 mkdir -p target/releases/
-cp target/$TARGET/release/* target/releases/
+cp target/$TARGET/release/$FILENAME target/releases/
+cp target/$TARGET/release/$FILENAME.sha256 target/releases/
