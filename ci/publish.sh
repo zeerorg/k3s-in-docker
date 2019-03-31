@@ -1,6 +1,7 @@
 #!/bin/sh
 
 rustup target add $TARGET
+export OG_FILE="k3d"
 
 case $TARGET in
 "x86_64-pc-windows-gnu")
@@ -8,6 +9,7 @@ case $TARGET in
   sudo apt-get install -y --no-install-recommends g++-mingw-w64-x86-64
   rustup target add x86_64-pc-windows-gnu
   export FILENAME="k3d.exe"
+  export OG_FILE="k3d.exe"
   ;;
 
 "x86_64-unknown-linux-musl")
@@ -34,5 +36,7 @@ esac
 cargo build --release --verbose --target $TARGET
 
 mkdir -p target/releases/
-mv target/$TARGET/release/k3d target/releases/$FILENAME
+mv target/$TARGET/release/$OG_FILE target/releases/$FILENAME
 sha256sum target/releases/$FILENAME > target/releases/$FILENAME.sha256
+
+ls -la target/releases
