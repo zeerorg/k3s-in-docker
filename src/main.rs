@@ -6,7 +6,7 @@ use clap::{App, SubCommand, Arg};
 
 fn main() {
     let matches = App::new("k3d")
-        .version("0.1.0")
+        .version(env!("GIT_TAG"))
         .author("Rishabh Gupta <r.g.gupta@outlook.com>")
         .about("Run k3s in Docker")
         .subcommand(SubCommand::with_name("check-tools")
