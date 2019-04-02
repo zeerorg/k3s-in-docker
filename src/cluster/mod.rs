@@ -2,8 +2,9 @@ mod cmd;
 mod data;
 
 use std::process::{self, Command};
+use std::{thread, time};
 
-pub fn create_cluster(name: &str, port: &str) {
+pub fn create_cluster(name: &str, port: &str, wait: bool) {
     let port_format = format!("{port}:{port}", port=port);
     let k3_arg = ["run", "--name", name,
                     "-e", "K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml", 
@@ -24,6 +25,23 @@ pub fn create_cluster(name: &str, port: &str) {
             process::exit(1);
         }
     };
+
+    let mut running = false;
+    while wait && !running {
+        let log_arg = ["logs", name];
+        let mut log_command = Command::new("docker");
+        match cmd::run_command(log_command.args(&log_arg)) {
+            Ok(s) => {
+                running = s.contains("Running kubelet");
+            },
+            Err(s) => {
+                eprintln!("Cannot get docker logs.");
+                eprintln!("{}", s);
+                process::exit(1);
+            }
+        }
+        thread::sleep(time::Duration::from_secs(2));
+    }
 
     match data::create_cluster_dir(name) {
         Err(_) => {
