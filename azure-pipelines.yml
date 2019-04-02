@@ -6,14 +6,39 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+jobs:
+  jobs:
+  - job: Windows
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+    - script: TARGET="x86_64-pc-windows-gnu" bash ./ci/publish.sh
+  - job: Linux Armhf
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+    - script: TARGET="armv7-unknown-linux-musleabihf" bash ./ci/publish.sh
+  - job: Linux
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+    - script: TARGET="x86_64-unknown-linux-musl" bash ./ci/publish.sh
+  - job: Linux Arm64
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+    - script: TARGET="aarch64-unknown-linux-gnu" bash ./ci/publish.sh
+  - job: Darwin
+    pool:
+      vmImage: 'macOS-10.13'
+    steps:
+    - script: TARGET="x86_64-apple-darwin" bash ./ci/publish.sh
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: GitHubRelease@0
+  displayName: Create Github Release
+  inputs:
+    gitHubConnection: release
+    repositoryName: '$(Build.Repository.Name)' 
+    action: 'edit'
+    target: '$(Build.SourceVersion)' # Required when action == Create || Action == Edit
+    tagSource: 'auto' 
