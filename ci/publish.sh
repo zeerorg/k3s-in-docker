@@ -40,6 +40,6 @@ cargo build --release --verbose --target $TARGET
 
 mkdir -p target/releases/
 mv target/$TARGET/release/$OG_FILE target/releases/$FILENAME
-$(shas) target/releases/$FILENAME > target/releases/$FILENAME.sha256
+$shas target/releases/$FILENAME > target/releases/$FILENAME.sha256
 
 ls -la target/releases
