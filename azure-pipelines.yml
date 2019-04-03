@@ -38,14 +38,13 @@ steps:
     targetType: filePath
     noRc: false
     filePath: ./ci/publish.sh
-
-    # - task: GitHubRelease@0
-    #   displayName: Create Github Release
-    #   inputs:
-    #     gitHubConnection: release
-    #     repositoryName: '$(Build.Repository.Name)' 
-    #     action: 'edit'
-    #     target: '$(Build.SourceVersion)'
-    #     tagSource: 'auto'
-    #     assets: |
-    #     $(Build.SourcesDirectory)/target/releases/*
+- task: GitHubRelease@0
+  displayName: Create Github Release
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+  inputs:
+    gitHubConnection: release
+    repositoryName: '$(Build.Repository.Name)' 
+    action: 'edit'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'auto'
+    assets: $(Build.SourcesDirectory)/target/releases/*
