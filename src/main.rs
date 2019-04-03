@@ -15,29 +15,38 @@ fn main() {
                     .about("Create a single node k3s server")
                     .arg(Arg::with_name("name")
                             .short("n")
+                            .long("name")
                             .default_value("k3s_default")
                             .help("give a name to cluster"))
                     .arg(Arg::with_name("port")
                             .short("p")
+                            .long("port")
                             .default_value("6443")
                             .help("provide a different port for cluster"))
-                    .arg(Arg::from_usage("-w --wait 'wait for the cluster to start'")))
+                    .arg(Arg::from_usage("-w --wait 'wait for the cluster to start'"))
+                    .arg(Arg::with_name("timeout")
+                            .long("timeout")
+                            .help("Set timeout in seconds when --wait flag is given. (0 for indefinite)")
+                            .requires("wait")))
         .subcommand(SubCommand::with_name("delete")
                     .about("Delete cluster")
                     .arg(Arg::with_name("name")
                             .short("n")
+                            .long("name")
                             .default_value("k3s_default")
                             .help("name of the cluster")))
         .subcommand(SubCommand::with_name("stop")
                     .about("Stop a cluster")
                     .arg(Arg::with_name("name")
                             .short("n")
+                            .long("name")
                             .default_value("k3s_default")
                             .help("name of the cluster")))
         .subcommand(SubCommand::with_name("start")
                     .about("Start a stopped cluster")
                     .arg(Arg::with_name("name")
                             .short("n")
+                            .long("name")
                             .default_value("k3s_default")
                             .help("name of the cluster")))
         .subcommand(SubCommand::with_name("list")
@@ -46,6 +55,7 @@ fn main() {
                     .about("get kubeconfig.yaml location")
                     .arg(Arg::with_name("name")
                             .short("n")
+                            .long("name")
                             .default_value("k3s_default")
                             .help("name of the cluster")))
         .get_matches();
@@ -57,7 +67,11 @@ fn main() {
         },
         ("create", Some(subm)) => {
             cluster::check_tools();
-            cluster::create_cluster(subm.value_of("name").unwrap(), subm.value_of("port").unwrap(), subm.is_present("wait"));
+            let mut timeout = 0;
+            if subm.is_present("timeout") {
+                timeout = subm.value_of("timeout").unwrap().parse::<u64>().unwrap();
+            }
+            cluster::create_cluster(subm.value_of("name").unwrap(), subm.value_of("port").unwrap(), subm.is_present("wait"), timeout);
             println!("Created cluster");
         },
         ("delete", Some(subm)) => {
