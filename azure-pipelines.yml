@@ -34,8 +34,12 @@ steps:
     source $HOME/.bashrc
   displayName: Install rust
 
-- script: bash ./ci/publish.sh
-  displayName: Build project
+- task: Bash@3
+  displayName: Build Project
+  inputs:
+    targetType: filePath
+    noRc: false
+    filePath: ./ci/publish.sh
 
     # - task: GitHubRelease@0
     #   displayName: Create Github Release
