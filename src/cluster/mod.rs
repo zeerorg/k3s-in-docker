@@ -43,7 +43,7 @@ pub fn create_cluster(name: &str, port: &str, wait: bool, timeout: u64) {
         }
 
         if (timeout > 0) && (time::SystemTime::now() > (start_time + time::Duration::from_secs(timeout))) {
-            eprintln!("Timeout expired.");
+            eprintln!("Timeout expired. Try setting a higher value.");
             cleanup(name);
         }
         thread::sleep(time::Duration::from_secs(2));
@@ -60,6 +60,7 @@ pub fn create_cluster(name: &str, port: &str, wait: bool, timeout: u64) {
 
 fn cleanup(name: &str) {
     delete_cluster(name);
+    eprintln!("Couldn't create cluster. If this was not expected please file an issue at https://github.com/zeerorg/k3s-in-docker/issues/new");
     process::exit(1);
 }
 
