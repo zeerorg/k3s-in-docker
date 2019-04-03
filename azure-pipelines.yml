@@ -30,10 +30,8 @@ pool:
 steps:
 - script: |
     curl https://sh.rustup.rs -sSf | sh -s -- -y
-    cat $HOME/.cargo/env >> $HOME/.bashrc
-    source $HOME/.bashrc
+    echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
   displayName: Install rust
-
 - task: Bash@3
   displayName: Build Project
   inputs:
