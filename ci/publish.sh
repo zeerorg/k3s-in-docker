@@ -2,6 +2,7 @@
 
 rustup target add $TARGET
 export OG_FILE="k3d"
+export shas="sha256sum"
 
 case $TARGET in
 "x86_64-pc-windows-gnu")
@@ -30,6 +31,7 @@ case $TARGET in
 
 "x86_64-apple-darwin")
   export FILENAME="k3d-darwin"
+  export shas="shasum -a 256"
   ;;
 esac
 
@@ -38,6 +40,6 @@ cargo build --release --verbose --target $TARGET
 
 mkdir -p target/releases/
 mv target/$TARGET/release/$OG_FILE target/releases/$FILENAME
-sha256sum target/releases/$FILENAME > target/releases/$FILENAME.sha256
+$shas target/releases/$FILENAME > target/releases/$FILENAME.sha256
 
 ls -la target/releases
