@@ -51,3 +51,4 @@ steps:
     tagSource: 'manual'
     tag: $(GIT_TAG)
     assets: $(Build.SourcesDirectory)/target/releases/*
+    assetUploadMode: replace
