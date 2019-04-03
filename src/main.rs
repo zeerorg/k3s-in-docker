@@ -20,7 +20,8 @@ fn main() {
                     .arg(Arg::with_name("port")
                             .short("p")
                             .default_value("6443")
-                            .help("provide a different port for cluster")))
+                            .help("provide a different port for cluster"))
+                    .arg(Arg::from_usage("-w --wait 'wait for the cluster to start'")))
         .subcommand(SubCommand::with_name("delete")
                     .about("Delete cluster")
                     .arg(Arg::with_name("name")
@@ -56,7 +57,7 @@ fn main() {
         },
         ("create", Some(subm)) => {
             cluster::check_tools();
-            cluster::create_cluster(subm.value_of("name").unwrap(), subm.value_of("port").unwrap());
+            cluster::create_cluster(subm.value_of("name").unwrap(), subm.value_of("port").unwrap(), subm.is_present("wait"));
             println!("Created cluster");
         },
         ("delete", Some(subm)) => {
