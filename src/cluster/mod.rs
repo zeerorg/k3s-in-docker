@@ -28,6 +28,9 @@ pub fn create_cluster(name: &str, port: &str, wait: bool, timeout: u64) {
 
     let mut running = false;
     let start_time = time::SystemTime::now();
+    if wait {
+        println!("Waiting for cluster to start.");
+    }
     while wait && !running {
         let log_arg = ["logs", name];
         let mut log_command = Command::new("docker");
@@ -59,6 +62,7 @@ pub fn create_cluster(name: &str, port: &str, wait: bool, timeout: u64) {
 }
 
 fn cleanup(name: &str) {
+    stop_cluster(name);
     delete_cluster(name);
     eprintln!("Couldn't create cluster. If this was not expected please file an issue at https://github.com/zeerorg/k3s-in-docker/issues/new");
     process::exit(1);
