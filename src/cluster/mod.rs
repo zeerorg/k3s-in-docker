@@ -62,9 +62,9 @@ pub fn create_cluster(name: &str, port: &str, wait: bool, timeout: u64) {
 }
 
 fn cleanup(name: &str) {
+    eprintln!("Couldn't create cluster. If this was not expected please file an issue at https://github.com/zeerorg/k3s-in-docker/issues/new");
     stop_cluster(name);
     delete_cluster(name);
-    eprintln!("Couldn't create cluster. If this was not expected please file an issue at https://github.com/zeerorg/k3s-in-docker/issues/new");
     process::exit(1);
 }
 
