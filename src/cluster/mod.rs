@@ -4,7 +4,7 @@ mod data;
 use std::process::{self, Command};
 use std::{thread, time};
 
-pub fn create_cluster(name: &str, port: &str, wait: bool) {
+pub fn create_cluster(name: &str, port: &str, wait: bool, timeout: u64) {
     let port_format = format!("{port}:{port}", port=port);
     let k3_arg = ["run", "--name", name,
                     "-e", "K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml", 
@@ -27,6 +27,10 @@ pub fn create_cluster(name: &str, port: &str, wait: bool) {
     };
 
     let mut running = false;
+    let start_time = time::SystemTime::now();
+    if wait {
+        println!("Waiting for cluster to start.");
+    }
     while wait && !running {
         let log_arg = ["logs", name];
         let mut log_command = Command::new("docker");
@@ -37,8 +41,13 @@ pub fn create_cluster(name: &str, port: &str, wait: bool) {
             Err(s) => {
                 eprintln!("Cannot get docker logs.");
                 eprintln!("{}", s);
-                process::exit(1);
+                cleanup(name);
             }
+        }
+
+        if (timeout > 0) && (time::SystemTime::now() > (start_time + time::Duration::from_secs(timeout))) {
+            eprintln!("Timeout expired. Try setting a higher value.");
+            cleanup(name);
         }
         thread::sleep(time::Duration::from_secs(2));
     }
@@ -46,10 +55,17 @@ pub fn create_cluster(name: &str, port: &str, wait: bool) {
     match data::create_cluster_dir(name) {
         Err(_) => {
             eprintln!("Couldn't create directory.");
-            process::exit(1)
+            cleanup(name);
         },
         _ => {}
     }
+}
+
+fn cleanup(name: &str) {
+    eprintln!("Couldn't create cluster. If this was not expected please file an issue at https://github.com/zeerorg/k3s-in-docker/issues/new");
+    stop_cluster(name);
+    delete_cluster(name);
+    process::exit(1);
 }
 
 pub fn delete_cluster(name: &str) {
