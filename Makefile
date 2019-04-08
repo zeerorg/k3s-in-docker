@@ -10,7 +10,8 @@ PKG       := $(shell go mod vendor)
 TAGS      :=
 TESTS     := .
 TESTFLAGS :=
-LDFLAGS   := -w -s
+GIT_TAG   := $(shell git describe --tags)
+LDFLAGS   := -w -s -X github.com/iwilltry42/k3d-go/version.Version=${GIT_TAG}
 GOFLAGS   :=
 BINDIR    := $(CURDIR)/bin
 BINARIES := k3d
@@ -18,7 +19,7 @@ BINARIES := k3d
 export GO111MODULE=on
 
 # go source files, ignore vendor directory
-SRC = $(shell find . -type f -name '*.go' -not -path "./vendor/*")
+SRC = $(shell find . -type f -name '*.go' -not -path "./vendor/*" -not -path "./cli/*")
 
 .PHONY: all build build-cross clean fmt simplify check
 

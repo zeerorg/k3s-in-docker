@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/iwilltry42/k3d-go/cli"
+	"github.com/iwilltry42/k3d-go/version"
 	"github.com/urfave/cli"
 )
 
@@ -15,7 +16,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "k3d"
 	app.Usage = "Run k3s in Docker!"
-	app.Version = "v0.1.1"
+	app.Version = version.GetVersion()
 	app.Authors = []cli.Author{
 		cli.Author{
 			Name:  "iwilltry42",
@@ -34,7 +35,7 @@ func main() {
 			Name:    "check-tools",
 			Aliases: []string{"ct"},
 			Usage:   "Check if docker is running",
-			Action: run.CheckTools,
+			Action:  run.CheckTools,
 		},
 		{
 			// create creates a new k3s cluster in a container
