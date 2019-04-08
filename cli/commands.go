@@ -9,12 +9,21 @@ import (
 	"github.com/urfave/cli"
 )
 
-// CheckTools checks if the installed tools work correctly
-func CheckTools(c *cli.Context) error {
-	log.Print("Checking docker...")
+func checkTools() error {
 	cmd := "docker"
 	args := []string{"version"}
 	if err := runCommand(true, cmd, args...); err != nil {
+		log.Fatalf("Checking docker: FAILED")
+		return err
+	}
+	return nil
+}
+
+// CheckTools checks if the installed tools work correctly
+func CheckTools(c *cli.Context) error {
+	log.Print("Checking docker...")
+	err := checkTools()
+	if err != nil {
 		log.Fatalf("Checking docker: FAILED")
 		return err
 	}
@@ -24,7 +33,10 @@ func CheckTools(c *cli.Context) error {
 
 // CreateCluster creates a new single-node cluster container and initializes the cluster directory
 func CreateCluster(c *cli.Context) error {
-	createClusterDir(c.String("name"))
+	err := checkTools()
+	if err != nil {
+		return err
+	}
 	port := fmt.Sprintf("%s:%s", c.String("port"), c.String("port"))
 	image := fmt.Sprintf("rancher/k3s:%s", c.String("version"))
 	cmd := "docker"
@@ -53,6 +65,7 @@ func CreateCluster(c *cli.Context) error {
 		log.Fatalf("FAILURE: couldn't create cluster [%s] -> %+v", c.String("name"), err)
 		return err
 	}
+	createClusterDir(c.String("name"))
 	log.Printf("SUCCESS: created cluster [%s]", c.String("name"))
 	log.Printf(`You can now use the cluster with:
 
