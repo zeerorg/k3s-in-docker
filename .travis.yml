@@ -13,10 +13,10 @@ before_script:
 script:
 - make fmt check build-cross
 deploy:
-  provider: releases
   skip_cleanup: true
+  provider: releases
   api_key:
-    secure: VFb0jmL6t+cuKWAGC5OLeseTJrK3CakD5Laeyp0JVG/o3/cYgHP0lIeDmJJMZL/Luxm5aL8QHsCRfQoMBAnj6Q8hchI9rbcYhFZzuFJYyDxjcrPm0+kM3yiK14lQZNvksy2ZSsO7D63c8x9sQVrEus4idVTUoxrpSXLM2eVjl6W0O2RdZvLsxgaLPwV1ufpihrqbXdEUjt/YSYpHiC5gS3o+FcyMGucJQdN/L7p6jyAqVgg4+t8bdyWj6+MEG4p8lmWhhbGzDo38iMxtCBu+nDHRsbivay3eJZ643VguX0lj62Vt5KUTcVJntmZqQ2UF6FoEVUPOegkrSeoiMuOH1+nYwcsfMFijMkrcFhb6bAisJJd6agdhFWXiSwL88FQkJh0DqeA0tFFIzDbTS/AZTY4Li8bWng3aCBgSXiMzIBf0es+wMDw0gwhfH44Y/RAsKSQJ/Lln00AaVzkOkOWOmu5Ks0CVYDy0M5QDQOCW2E9TIb7WdIMh3aNCkZi+rGovigejJv3vUZqkN03Og07Hbrjgfg28iY3isIt3soOrVqek2hJJFnKjUhhv2OhJm3z6FpTyMViUtSmJ+LTiBjpyiWC4QuaITDadCJTxZQwobhI+18c2Zi5/HjTX1pgD1wk3quv9R4bGjVINenefG6xxaNj+CeFTfrQnnHuXOL50828=
+    secure: rK2BUQrIAGIMvwqN0NPajL2umlgchXhATQJuyZkMYpMYAEcN0gIoAV/MNReOfAr3jzwNqpcof6dnsLib0ajZIGC/hU4l1QZaDpIeY8ElJ8pnzN5tgIMen/uNEv7ajqi7B+fIQ6KybxVHZmVPl3BlIliQTu1PJsT8lXk7E9+XtOY/xfvvmb6jZYGEs6x85MtYB/xG1ggpG8gMY8U/WbZ9ikOZ0+dq+VFs/gqEtZFX2tgVkjsN511b6m4hcmSc9UGJfR0pGJXFWRoi4LZxCLCohRP+htJgk/xjjxZ90CY8skKc8toZk6uXIKOynmR2GuIgU3l4yh5uuSKtdF+5sUwTZv/5tWC0SSt4qTQ8tfdkkioTRJ2m/0YWrRASycS7jAacRVyclGHs0ZyDTxO0PHD83eF7cageabDKJWOMo2iR3YArDWiLq8BGf7M1C+c3gDNsuS7R+93valVDog1E9HtfRw8RsHxulIc81poGZLmV1pweVgE+A0UlrSz+Ex2qXyUdnJX5PEH0rFXb9RhkGoc4CnZ8uJApQCOsTlkdshAm2O01NOBmRdBb+QwdVUKUaTZEszeyrU9f8Ip/VCOagmUcqxo7Xxng+/l2FmVhXe1HlDJwK0AKY8dEYkGBlb9f7J9ahd2Bp3ghDwmEQCUprucmITw8f6zrYhQoQSUv/0FUW7Y=
   file:
   - _dist/k3d-darwin-amd64
   - _dist/k3d-linux-386
@@ -25,5 +25,5 @@ deploy:
   - _dist/k3d-linux-arm64
   - _dist/k3d-windows-amd64.exe
   on:
-    repo: iwilltry42/k3d-go
+    repo: zeerorg/k3s-in-docker
     tags: true
