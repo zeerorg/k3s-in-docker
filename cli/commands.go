@@ -1,29 +1,24 @@
 package run
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"path"
+	"strings"
+	"time"
 
 	"github.com/urfave/cli"
 )
 
-func checkTools() error {
-	cmd := "docker"
-	args := []string{"version"}
-	if err := runCommand(true, cmd, args...); err != nil {
-		log.Fatalf("Checking docker: FAILED")
-		return err
-	}
-	return nil
-}
-
 // CheckTools checks if the installed tools work correctly
 func CheckTools(c *cli.Context) error {
 	log.Print("Checking docker...")
-	err := checkTools()
-	if err != nil {
+	cmd := "docker"
+	args := []string{"version"}
+	if err := runCommand(true, cmd, args...); err != nil {
 		log.Fatalf("Checking docker: FAILED")
 		return err
 	}
@@ -33,9 +28,8 @@ func CheckTools(c *cli.Context) error {
 
 // CreateCluster creates a new single-node cluster container and initializes the cluster directory
 func CreateCluster(c *cli.Context) error {
-	err := checkTools()
-	if err != nil {
-		return err
+	if c.IsSet("timeout") && !c.IsSet("wait") {
+		return errors.New("--wait flag is not specified")
 	}
 	port := fmt.Sprintf("%s:%s", c.String("port"), c.String("port"))
 	image := fmt.Sprintf("rancher/k3s:%s", c.String("version"))
@@ -65,6 +59,34 @@ func CreateCluster(c *cli.Context) error {
 		log.Fatalf("FAILURE: couldn't create cluster [%s] -> %+v", c.String("name"), err)
 		return err
 	}
+
+	start := time.Now()
+	timeout := time.Duration(c.Int("timeout")) * time.Second
+	for c.IsSet("wait") {
+		if timeout != 0 && !time.Now().After(start.Add(timeout)) {
+			err := DeleteCluster(c)
+			if err != nil {
+				return err
+			}
+			return errors.New("Cluster timeout expired")
+		}
+		cmd := "docker"
+		args = []string{
+			"logs",
+			c.String("name"),
+		}
+		prog := exec.Command(cmd, args...)
+		output, err := prog.CombinedOutput()
+		if err != nil {
+			return err
+		}
+		if strings.Contains(string(output), "Running kubelet") {
+			break
+		}
+
+		time.Sleep(1 * time.Second)
+	}
+
 	createClusterDir(c.String("name"))
 	log.Printf("SUCCESS: created cluster [%s]", c.String("name"))
 	log.Printf(`You can now use the cluster with:

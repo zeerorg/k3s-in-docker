@@ -52,10 +52,24 @@ func main() {
 					Name:  "volume, v",
 					Usage: "Mount a volume into the cluster node (Docker notation: `source:destination`)",
 				},
+				cli.StringFlag{
+					Name:  "version",
+					Value: "v0.3.0",
+					Usage: "Choose the k3s image version",
+				},
 				cli.IntFlag{
 					Name:  "port, p",
 					Value: 6443,
 					Usage: "Set a port on which the ApiServer will listen",
+				},
+				cli.IntFlag{
+					Name:  "timeout, t",
+					Value: 0,
+					Usage: "Set the timeout value when --wait flag is set",
+				},
+				cli.BoolFlag{
+					Name:  "wait, w",
+					Usage: "Wait for the cluster to come up",
 				},
 			},
 			Action: run.CreateCluster,
