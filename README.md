@@ -1,6 +1,6 @@
 # k3d - k3s in docker
 
-A lightweight alternative to KinD for local development. Read the introductory blog [post](https://blog.zeerorg.site/post/k3d-kubernetes-dev-env).
+A lightweight alternative to KinD for local development. Read the introductory blog [post](https://blog.zeerorg.site/post/k3d-kubernetes-dev-env). There is a more updated tool [rancher/k3d](https://github.com/rancher/k3d) which has more functionality than this tool and is written in go, I'd urge you to give it a try over this repo.
 
 ## Install and run
 
